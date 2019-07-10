@@ -1,15 +1,26 @@
 import React from 'react'
 import UploadButton from './UploadButton'
 import ImgDisplay from './ImgDisplay'
-import DetailDisplay from './DetailDisplay'
 import Url from "./Url"
+import { Route, Switch, Redirect, Link } from "react-router-dom"
 
 export default class Ui_Container extends React.Component {
 
   state ={
+    allPics:[],
     picURL: "",
     details: "",
     urlLink:null
+  }
+
+  componentDidMount(){
+    fetch(`http://localhost:4000/api/v1/images`)
+    .then(r=>r.json())
+    .then(data => {
+      this.setState({
+        allPics:data
+      })
+    })
   }
 
   handleUrlLink=(data)=>{
@@ -71,21 +82,39 @@ setDisplay = (res) => {
 
 
     render(){
+      console.log(this.state.allPics)
       return (
-        <div>
-        <ImgDisplay imgUrl={this.state.picURL}/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <DetailDisplay details={this.state.details} />
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <Url handleUrlClick={this.handleUrlClick} handleUrlLink={this.handleUrlLink} urlLink={this.state.urlLink} />
-        <UploadButton uploadPic={this.uploadPic}/>
-        </div>
+        <Switch>
+          <Route exact path="/" render={()=>{
+              return(<div>
+              <h1 className="asdf">SEARCH A PICTURE aka route 1</h1>
+              <ImgDisplay imgUrl={this.state.picURL} details={this.state.details}/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <Url handleUrlClick={this.handleUrlClick} handleUrlLink={this.handleUrlLink} urlLink={this.state.urlLink} />
+              <UploadButton uploadPic={this.uploadPic}/>
+              <Link to="/image">
+                <button>All images</button>
+              </Link>
+              </div>)
+          }}/>
+              return(
+                <div className="asdf">
+                  <h1>THIS  IS ALL THE PICTURES aka route 2</h1>
+                  {
+                  this.state.allPics.map(pic=> <ImgDisplay key={pic.id} imgUrl={pic.url} details={pic.details}/>)
+                  }
+                </div>
+              )
+        }}/>
+      <Redirect to="/" />
+      </Switch>
       )
     }
   }
