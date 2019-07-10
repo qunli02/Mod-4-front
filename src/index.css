@@ -5,9 +5,31 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("https://steamuserimages-a.akamaihd.net/ugc/768273615166089737/C9CE63C1A9E039CD965A833AEA536A5698E3B079/");
+  background-repeat: no-repeat;
+  background-size: 100%, 100%;
+  color: yellow;
+  font-size: 50px
+
+
 }
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+
+
+
+
+@keyframes raveOn{
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
 }
